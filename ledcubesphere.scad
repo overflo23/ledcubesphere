@@ -5,7 +5,7 @@
 
  -overflo 9/2022
 
-Free software in the public domain (ab)use at will.
+Free software in the public domain (ab)use at will.  
 
 */
 
@@ -19,7 +19,7 @@ led_distance=7;
 cubesize= leds*led_distance;
 
 // how thick the walld should be to fit between the leds
-wallthickness=0.2;
+wallthickness=1;
 
 // this could be something else 
 sphere_dia=cubesize*1.75;
@@ -40,12 +40,35 @@ module grid()
      for(i=[0:leds/2])
      {
       //echo((45/leds)*i);
-     translate([(i*led_distance),0,(cubesize/2)])   rotate([0,(90/leds)*i,0]) cube([wallthickness,1000,1000] ,center=true);   
+     
+
+     if (i==(leds/2)) { 
+      color("green") translate([(i*led_distance),0,(cubesize/2)])   rotate([0,(90/leds)*i,0]) cube([wallthickness/2,1000,1000] ,center=true);
+     }    
+     else
+     {
+       translate([(i*led_distance),0,(cubesize/2)])   rotate([0,(90/leds)*i,0]) cube([wallthickness,1000,1000] ,center=true);      
+     }
+ 
+         
+         
+      
      }
      // make fins on the other side of the center  
      for(i=[0:leds/2])
      {
-      translate([-(i*led_distance),0,(cubesize/2)])   rotate([0,-(90/leds)*i,0]) cube([wallthickness,1000,1000] ,center=true);   
+         
+              if (i==(leds/2)) { 
+      color("blue") translate([-(i*led_distance),0,(cubesize/2)])   rotate([0,-(90/leds)*i,0]) cube([wallthickness/2,1000,1000] ,center=true);
+     }    
+     else
+     {
+       translate([-(i*led_distance),0,(cubesize/2)])   rotate([0,-(90/leds)*i,0]) cube([wallthickness,1000,1000] ,center=true);      
+     }
+         
+         
+         
+
      }
     } //union
 
@@ -53,7 +76,7 @@ module grid()
     hull()
     {
      translate([0,0,500]) cube([1000,1000,1],center=true);
-     translate([0,0,cubesize/2]) cube([cubesize,cubesize,1],center=true);
+     translate([0,0,cubesize/2]) cube([cubesize,cubesize,0.001],center=true);
     }
  }  //intersection
 
@@ -87,6 +110,7 @@ intersection()
  union()
  {   
   sidegrid();
+
   rotate([90,0,0]) sidegrid();   
      
   rotate([-90,0,0]) sidegrid();   
